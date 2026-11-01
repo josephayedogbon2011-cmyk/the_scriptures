@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f28c28">
+  <meta name="description" content="The Scriptures — a simple King James Version Bible reading website.">
+  <title>The Scriptures | Holy Bible KJV</title>
+  <link rel="manifest" href="manifest.json">
+  <style>
+    :root {
+      --bg:#fffaf3; --surface:#ffffff; --text:#242424; --muted:#77716a;
+      --orange:#f28c28; --blue:#2878d0; --line:#eee5da; --soft:#fff0df;
+      --shadow:0 12px 35px rgba(48,34,18,.08);
+    }
+    [data-theme="dark"] {
+      --bg:#111827; --surface:#1c2636; --text:#f4f6fb; --muted:#aab4c3;
+      --orange:#ff9a36; --blue:#4b9bfa; --line:#344154; --soft:#302b2a;
+      --shadow:0 12px 35px rgba(0,0,0,.2);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--text);font-family:Georgia,"Times New Roman",serif;transition:.2s}
+    button,select,input{font:inherit}
+    .topbar{background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+    .nav{max-width:1100px;margin:auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .brand{display:flex;align-items:center;gap:11px;font-family:Arial,sans-serif;font-weight:800;font-size:20px}
+    .logo{width:42px;height:42px;border-radius:13px;background:linear-gradient(135deg,var(--orange),#ffb45f);display:grid;place-items:center;color:white;font-size:25px;box-shadow:0 5px 14px #f28c2840}
+    .nav-actions{display:flex;gap:8px;align-items:center}
+    .btn{border:0;border-radius:10px;padding:10px 14px;cursor:pointer;font-family:Arial,sans-serif;font-weight:700}
+    .orange{background:var(--orange);color:#fff}.blue{background:var(--blue);color:#fff}
+    .outline{background:transparent;border:1px solid var(--line);color:var(--text)}
+    .hero{max-width:1100px;margin:32px auto 22px;padding:0 20px}
+    .hero-card{background:linear-gradient(115deg,#f28c28,#2878d0);color:#fff;border-radius:22px;padding:34px 30px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+    .hero-card:after{content:"✝";position:absolute;right:42px;top:-35px;font-size:180px;opacity:.13}
+    .eyebrow{font:700 12px Arial,sans-serif;letter-spacing:2px;text-transform:uppercase;opacity:.9}
+    h1{font-size:clamp(32px,5vw,48px);margin:12px 0 8px}
+    .hero p{font:16px/1.6 Arial,sans-serif;max-width:540px;margin:0 0 20px}
+    .layout{max-width:1100px;margin:0 auto;padding:0 20px 50px;display:grid;grid-template-columns:270px 1fr;gap:20px}
+    .panel{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:var(--shadow)}
+    .panel h2{font:700 17px Arial,sans-serif;margin:0 0 15px}
+    label{display:block;font:700 12px Arial,sans-serif;color:var(--muted);margin:14px 0 6px}
+    select,input{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--text)}
+    .side-btn{width:100%;text-align:left;margin-top:9px;background:var(--soft);color:var(--text);padding:12px;border:0;border-radius:10px;cursor:pointer}
+    .reader-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+    .reader-head h2{font-size:24px;margin:0}
+    .verse{font-size:18px;line-height:1.8;padding:15px 0;border-bottom:1px solid var(--line)}
+    .verse:last-child{border-bottom:0}
+    .verse-num{font:700 12px Arial,sans-serif;color:var(--orange);margin-right:8px}
+    .verse-actions{display:flex;gap:8px;margin-top:8px}
+    .mini{font:700 11px Arial,sans-serif;border:1px solid var(--line);background:transparent;color:var(--muted);padding:6px 9px;border-radius:8px;cursor:pointer}
+    .note{font:13px/1.5 Arial,sans-serif;color:var(--muted);background:var(--soft);padding:12px;border-radius:10px;margin-top:15px}
+    .footer{text-align:center;color:var(--muted);font:12px Arial,sans-serif;padding:0 20px 30px}
+    .hidden{display:none!important}
+    @media(max-width:760px){.layout{grid-template-columns:1fr}.hero{margin-top:20px}.hero-card{padding:26px 22px}.hero-card:after{right:10px;font-size:130px}.nav{padding:12px 14px}.brand{font-size:17px}.nav-actions .btn{padding:9px 10px}}
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="nav">
+      <div class="brand"><div class="logo">✝</div><span>THE SCRIPTURES</span></div>
+      <div class="nav-actions">
+        <button class="btn outline" id="installBtn" hidden>Install app</button>
+        <button class="btn outline" id="themeBtn" aria-label="Switch theme">🌙 Dark</button>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-card">
+      <div class="eyebrow">HOLY BIBLE · KING JAMES VERSION</div>
+      <h1>Let the Word guide you.</h1>
+      <p>Read, reflect, and keep the Scriptures close wherever you go.</p>
+      <button class="btn" style="background:#fff;color:#a95008" onclick="document.getElementById('reader').scrollIntoView({behavior:'smooth'})">Start reading ↓</button>
+    </div>
+  </section>
+
+  <main class="layout" id="reader">
+    <aside class="panel">
+      <h2>Find a passage</h2>
+      <label for="bookSelect">BOOK</label>
+      <select id="bookSelect">
+        <option>Genesis</option><option>Exodus</option><option>Psalms</option><option>Proverbs</option><option>Isaiah</option><option>Matthew</option><option>Mark</option><option>Luke</option><option>John</option><option>Romans</option><option>1 Corinthians</option><option>Revelation</option>
+      </select>
+      <label for="chapterSelect">CHAPTER</label>
+      <select id="chapterSelect"><option value="1">1</option><option value="2">2</option><option value="3">3</option></select>
+      <button class="btn blue" style="width:100%;margin-top:12px" id="openBtn">Open chapter</button>
+      <button class="side-btn" id="todayBtn">✨ Verse of the day</button>
+      <button class="side-btn" id="savedBtn">🔖 My saved verses</button>
+      <div class="note">Your saved verses are stored on this device. Chapters you open can be cached for later reading when offline.</div>
+    </aside>
+
+    <section class="panel">
+      <div class="reader-head">
+        <h2 id="chapterTitle">Genesis 1</h2>
+        <span class="eyebrow" style="color:var(--orange)">KING JAMES VERSION</span>
+      </div>
+      <div id="verses">
+        <div class="verse"><span class="verse-num">1</span>In the beginning God created the heaven and the earth.</div>
+        <div class="verse"><span class="verse-num">2</span>And the earth was without form, and void; and darkness was upon the face of the deep. And the Spirit of God moved upon the face of the waters.</div>
+        <div class="verse"><span class="verse-num">3</span>And God said, Let there be light: and there was light.</div>
+        <div class="verse"><span class="verse-num">4</span>And God saw the light, that it was good: and God divided the light from the darkness.</div>
+        <div class="verse"><span class="verse-num">5</span>And God called the light Day, and the darkness he called Night. And the evening and the morning were the first day.</div>
+      </div>
+      <div id="status" class="note">Welcome! Choose a book and chapter to read. Connect to the internet to load additional chapters.</div>
+    </section>
+  </main>
+  <div class="footer">THE SCRIPTURES · King James Version · Read and reflect</div>
+
+<script>
+const samples = {
+ "Genesis 1": [
+ "In the beginning God created the heaven and the earth.",
+ "And the earth was without form, and void; and darkness was upon the face of the deep. And the Spirit of God moved upon the face of the waters.",
+ "And God said, Let there be light: and there was light.",
+ "And God saw the light, that it was good: and God divided the light from the darkness.",
+ "And God called the light Day, and the darkness he called Night. And the evening and the morning were the first day."
+ ],
+ "John 1": [
+ "In the beginning was the Word, and the Word was with God, and the Word was God.",
+ "The same was in the beginning with God.",
+ "All things were made by him; and without him was not any thing made that was made.",
+ "In him was life; and the life was the light of men.",
+ "And the light shineth in darkness; and the darkness comprehended it not."
+ ],
+ "Psalms 23": [
+ "The LORD is my shepherd; I shall not want.",
+ "He maketh me to lie down in green pastures: he leadeth me beside the still waters.",
+ "He restoreth my soul: he leadeth me in the paths of righteousness for his name's sake.",
+ "Yea, though I walk through the valley of the shadow of death, I will fear no evil: for thou art with me; thy rod and thy staff they comfort me.",
+ "Thou preparest a table before me in the presence of mine enemies: thou anointest my head with oil; my cup runneth over.",
+ "Surely goodness and mercy shall follow me all the days of my life: and I will dwell in the house of the LORD for ever."
+ ],
+ "Matthew 5": [
+ "And seeing the multitudes, he went up into a mountain: and when he was set, his disciples came unto him:",
+ "And he opened his mouth, and taught them, saying,",
+ "Blessed are the poor in spirit: for theirs is the kingdom of heaven.",
+ "Blessed are they that mourn: for they shall be comforted.",
+ "Blessed are the meek: for they shall inherit the earth."
+ ]
+};
+const book=document.getElementById('bookSelect'), chapter=document.getElementById('chapterSelect');
+const title=document.getElementById('chapterTitle'), verses=document.getElementById('verses'), status=document.getElementById('status');
+function key(){return book.value+' '+chapter.value}
+function render(list, heading){
+ title.textContent=heading; verses.innerHTML='';
+ list.forEach((text,i)=>{
+   const row=document.createElement('div'); row.className='verse';
+   const num=document.createElement('span'); num.className='verse-num'; num.textContent=i+1;
+   row.append(num,document.createTextNode(text));
+   const actions=document.createElement('div'); actions.className='verse-actions';
+   const save=document.createElement('button'); save.className='mini'; save.textContent='🔖 Save verse';
+   save.onclick=()=>saveVerse(heading,i+1,text);
+   actions.append(save); row.append(actions); verses.append(row);
+ });
+}
+function saveVerse(ref,n,text){
+ const saved=JSON.parse(localStorage.getItem('scriptures_saved')||'[]');
+ if(!saved.some(x=>x.ref===ref&&x.n===n)){saved.push({ref,n,text});localStorage.setItem('scriptures_saved',JSON.stringify(saved));}
+ status.textContent='Saved '+ref+':'+n+' on this device.';
+}
+document.getElementById('openBtn').onclick=async()=>{
+ const k=key(); status.textContent='Loading '+k+'…';
+ if(samples[k]){render(samples[k],k);status.textContent='This sample chapter is available offline.';return;}
+ const cache=localStorage.getItem('chapter_'+k);
+ if(!navigator.onLine && cache){render(JSON.parse(cache),k);status.textContent='Loaded saved copy while offline.';return;}
+ try{
+   const url='https://bible-api.com/'+encodeURIComponent(k)+'?translation=kjv';
+   const res=await fetch(url); if(!res.ok) throw new Error('Could not load chapter');
+   const data=await res.json(); const list=data.verses.map(v=>v.text.trim());
+   localStorage.setItem('chapter_'+k,JSON.stringify(list)); render(list,k);
+   status.textContent='Chapter loaded. It is now saved on this device for offline reading.';
+ }catch(e){status.textContent='That chapter is not in the starter sample. Connect to the internet and try again. Previously opened chapters remain available offline.';}
+};
+document.getElementById('todayBtn').onclick=()=>{
+ book.value='Psalms';chapter.value='23';render(samples['Psalms 23'],'Psalm 23');
+ status.textContent='A passage for reflection: Psalm 23.';
+};
+document.getElementById('savedBtn').onclick=()=>{
+ const saved=JSON.parse(localStorage.getItem('scriptures_saved')||'[]');
+ title.textContent='My saved verses';verses.innerHTML='';
+ if(!saved.length){verses.textContent='You have not saved any verses yet.';return;}
+ saved.forEach(v=>{const d=document.createElement('div');d.className='verse';d.innerHTML='<span class="verse-num"></span>';d.querySelector('span').textContent=v.ref+':'+v.n;d.append(document.createTextNode(v.text));verses.append(d);});
+ status.textContent=saved.length+' saved verse(s) on this device.';
+};
+const themeBtn=document.getElementById('themeBtn');
+function setTheme(t){document.documentElement.dataset.theme=t;localStorage.setItem('scriptures_theme',t);themeBtn.textContent=t==='dark'?'☀️ Light':'🌙 Dark';}
+setTheme(localStorage.getItem('scriptures_theme')||'light');
+themeBtn.onclick=()=>setTheme(document.documentElement.dataset.theme==='dark'?'light':'dark');
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));}
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;document.getElementById('installBtn').hidden=false;});
+document.getElementById('installBtn').onclick=async()=>{if(deferredPrompt){deferredPrompt.prompt();deferredPrompt=null;}};
+</script>
+</body>
+</html>
